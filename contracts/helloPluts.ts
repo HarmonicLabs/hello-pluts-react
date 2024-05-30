@@ -1,15 +1,13 @@
-import { Address, PScriptContext, PaymentCredentials, Script, bool, compile, data, makeValidator, pBool, pfn } from "@harmoniclabs/plu-ts";
-
+import { Address, PPubKeyHash, PScriptContext, PaymentCredentials, Script, bool, bs, compile, makeValidator, pfn, data, pBool } from "@harmoniclabs/plu-ts";
 
 const helloPluts = pfn([
-    data,
-    data,
-    PScriptContext.type
+  data,
+  data,
+  PScriptContext.type
 ], bool)
-(( datum, redeemer, ctx ) => {
-
-    // locks founds forever
-    return pBool( false );
+((datum, redeemer, ctx) => {
+  // locks funds forever
+  return pBool( false );
 });
 
 ///////////////////////////////////////////////////////////////////
@@ -18,16 +16,16 @@ const helloPluts = pfn([
 // ------------------------------------------------------------- //
 ///////////////////////////////////////////////////////////////////
 
-export const untypedValidator = makeValidator( helloPluts );
+export const untypedValidator = makeValidator(helloPluts);
 
-export const compiledContract = compile( untypedValidator );
+export const compiledContract = compile(untypedValidator);
 
 export const script = new Script(
-    "PlutusScriptV2",
-    compiledContract
+  "PlutusScriptV2",
+  compiledContract
 );
 
 export const scriptTestnetAddr = new Address(
-    "testnet",
-    PaymentCredentials.script( script.hash )
+  "testnet",
+  PaymentCredentials.script(script.hash)
 );
