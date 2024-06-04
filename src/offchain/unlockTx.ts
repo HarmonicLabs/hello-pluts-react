@@ -1,17 +1,18 @@
 import { Address, isData, DataB, Tx } from "@harmoniclabs/plu-ts";
 import { fromAscii, uint8ArrayEq } from "@harmoniclabs/uint8array-utils";
+import { BlockfrostPluts } from "@harmoniclabs/blockfrost-pluts";
 import { BrowserWallet } from "@meshsdk/core";
 import { script, scriptTestnetAddr } from "../../contracts/helloPluts";
 import { toPlutsUtxo } from "./mesh-utils";
 import getTxBuilder from "./getTxBuilder";
-import Blockfrost from "./blockfrost";
 
-async function getUnlockTx(wallet: BrowserWallet): Promise<Tx> {
+async function getUnlockTx(wallet: BrowserWallet, Blockfrost: BlockfrostPluts): Promise<Tx> {
   throw new Error("'unlockTx' logic not implemented");   
 }
 
-export async function unlockTx(wallet: BrowserWallet): Promise<string> {
-  const unsingedTx = await getUnlockTx(wallet);
+export async function unlockTx(wallet: BrowserWallet, projectId: string): Promise<string> {
+  const Blockfrost = new BlockfrostPluts({ projectId });
+  const unsingedTx = await getUnlockTx(wallet, Blockfrost);
 
   const txStr = await wallet.signTx(
     unsingedTx.toCbor().toString(),
