@@ -32,10 +32,8 @@ export default function ConnectionHandler(props: Props) {
                     key={i}
                     className="center-child-flex-even p100-w click-pointer"
                     style={{marginBottom: '10px'}}
-                    onClick={() => {
-                      connect(w.name);
-                      // important to update `isOpen`
-                      // and not show the modal on disconnection
+                    onClick={async () => {
+                      await connect(w.name);
                       onClose();
                     }}
                   >
