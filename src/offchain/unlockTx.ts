@@ -19,5 +19,10 @@ export async function unlockTx(wallet: BrowserWallet, projectId: string): Promis
     true // partial sign because we have smart contracts in the transaction
   );
 
-  return await Blockfrost.submitTx(txStr);
+  const txWit = Tx.fromCbor(txStr).witnesses.vkeyWitnesses ?? [];
+  for (const wit of txWit) {
+    unsingedTx.addVKeyWitness(wit);
+  }
+
+  return await Blockfrost.submitTx(unsingedTx);
 }
